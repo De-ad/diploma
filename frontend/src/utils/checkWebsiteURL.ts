@@ -1,6 +1,10 @@
-export const getWebsiteNameFromURL = (URL: string, str: URL) => {};
+export const getWebsiteNameFromURL = (URL: string) => {
+  URL = URL.replace(/^(https?:\/\/)?(www\.)?/, "");
+  URL = URL.split("/")[0];
+  return URL;
+};
 
-export function validateURL(str: string) {
+export const validateURL = (str: string) => {
   str = str.trimEnd();
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
@@ -10,6 +14,6 @@ export function validateURL(str: string) {
       "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
       "(\\#[-a-z\\d_]*)?$",
     "i",
-  ); 
+  );
   return !!pattern.test(str);
-}
+};

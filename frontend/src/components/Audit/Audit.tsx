@@ -1,5 +1,8 @@
 import React from "react";
+import { useParams } from "react-router";
 
 export const Audit = () => {
-  return <div>hi2</div>;
+  let { websiteURL } = useParams();
+
+  return <div>{websiteURL}</div>;
 };

@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { validateURL } from "../../utils/checkWebsiteURL";
+import {
+  getWebsiteNameFromURL,
+  validateURL,
+} from "../../utils/checkWebsiteURL";
+import { useNavigate } from "react-router";
 
 export const Home = () => {
+  let navigate = useNavigate();
   const [websiteURL, setWebsiteURL] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleAudit = () => {
     if (validateURL(websiteURL)) {
       setErrorMessage("");
+      let name = getWebsiteNameFromURL(websiteURL);
+      navigate(`/audit/${name}`);
     } else {
       setErrorMessage("URL сайта не валидный");
     }

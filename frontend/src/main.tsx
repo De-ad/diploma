@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="audit">
-          <Route path=":website" element={<Audit />} />
+          <Route path=":websiteURL" element={<Audit />} />
         </Route>
       </Routes>
     </BrowserRouter>
