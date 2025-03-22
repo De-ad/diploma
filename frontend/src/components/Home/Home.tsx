@@ -9,6 +9,7 @@ export const Home = () => {
   let navigate = useNavigate();
   const [websiteURL, setWebsiteURL] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [websiteImages, setWebsiteImages] = useState(null);
 
   const handleAudit = () => {
     if (validateURL(websiteURL)) {
@@ -27,6 +28,7 @@ export const Home = () => {
         onChange={(e) => setWebsiteURL(e.target.value)}
         value={websiteURL}
       ></input>
+      <input type="file" id="websiteImages" name="websiteImages" accept="image/png, image/jpeg" multiple/>
       <button onClick={handleAudit}>Проанализировать</button>
       <div>{errorMessage}</div>
     </div>

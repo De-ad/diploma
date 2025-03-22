@@ -8,3 +8,6 @@ import axios from "axios";
 //     },
 //   });
 
+const sendData = (websiteName: string, websiteImages? : []) => { 
+
+}
