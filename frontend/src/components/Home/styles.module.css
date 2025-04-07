@@ -15,7 +15,7 @@
     align-items: flex-end;
     justify-content: center;
     gap: 20px;
-    padding: 20px;
+    padding-top: 20px;
 
     .images_buttons {
       display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   getWebsiteNameFromURL,
   validateURL,
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { HOME_PAGE_MESSAGE } from "../../constants/text";
 import styles from "./styles.module.css";
 import ImageUploading, { ImageListType } from "react-images-uploading";
+import { sendData } from "../../api/auditApi";
 
 export const Home = () => {
   let navigate = useNavigate();
@@ -15,10 +16,11 @@ export const Home = () => {
   const [websiteImages, setWebsiteImages] = useState([]);
   const maxNumber = 10;
 
-  const handleAudit = () => {
+  const handleAudit = async () => {
     if (validateURL(websiteURL)) {
       setErrorMessage("");
       let name = getWebsiteNameFromURL(websiteURL);
+      await sendData(websiteURL, websiteImages);
       navigate(`/audit/${name}`);
     } else {
       setErrorMessage("URL сайта не валидный");
@@ -65,12 +67,10 @@ export const Home = () => {
                 onClick={onImageUpload}
                 {...dragProps}
               >
-                Выбрать файл или drop
+                Выбрать файл
               </button>
               &nbsp;
-              <button onClick={onImageRemoveAll}>
-                Удалить все изображения
-              </button>
+              <button onClick={onImageRemoveAll}>Удалить все файлы</button>
               <div className={styles.uploaded_images_block}>
                 {imageList.map((image, index) => (
                   <div key={index}>
