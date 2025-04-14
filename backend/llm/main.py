@@ -27,9 +27,6 @@ app.add_middleware(
 logger = logging.getLogger('uvicorn.error')
 logger.setLevel(logging.DEBUG)
 
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True) 
-
 # openai_key from env
 openai_key = os.getenv("API_KEY")
 
