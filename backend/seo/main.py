@@ -4,6 +4,7 @@ from typing import List
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import logging
+from utils import operations
 
 app = FastAPI()
 load_dotenv()
@@ -23,8 +24,11 @@ app.add_middleware(
 logger = logging.getLogger('uvicorn.error')
 logger.setLevel(logging.DEBUG)
 
+class Website(BaseModel):
+    url: str
+
 @app.post("/seo/analyze")
-def analyze_code():
-    return {"message": "LLM analysis is not implemented yet"}
+async def analyze_code(website: Website):
+    return await operations.check_if_robots_file_is_present(website.url)
 
 
