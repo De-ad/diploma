@@ -30,7 +30,31 @@ async def check_if_robots_file_is_present(url: str):
         except httpx.RequestError as e:
             return {"error": str(e)}
 
+async def check_if_favicon_is_present(base_url: str):
+    favicon_extensions = ['ico', 'png', 'svg']
+    base_url = base_url.rstrip('/')
+    
+    async with httpx.AsyncClient() as client:
+        for ext in favicon_extensions:
+            favicon_url = f"{base_url}/favicon.{ext}"
+            try:
+                response = await client.get(favicon_url)
+                if response.status_code == 200:
+                    return {
+                        "found": True,
+                        "status_code": response.status_code,
+                        "message": f"favicon.{ext} found",
+                        "url": favicon_url
+                    }
+            except httpx.RequestError as e:
+                return {"error": str(e)}
 
+        return {
+            "found": False,
+            "status_code": None,
+            "message": "No favicon found"
+        }
+        
 async def check_if_sitemap_file_is_present(url: str):
     url = f"{url.rstrip('/')}/sitemap.xml"
     async with httpx.AsyncClient() as client:
@@ -134,10 +158,34 @@ async def create_word_cloud(url: str):
         except httpx.RequestError as e:
             return {"error": str(e)}
 
-  
+
+async def check_metadata(url):
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
+                description =str(soup.find("meta", property="og:description"))
+   
+                if(soup.title.string):
+                    title = True 
+
+                if(description):
+                    description = True
+
+                return {
+                    "title": title,
+                    "description": description}                
+            else:
+                return {
+                    "message": "error"
+                }
+        except httpx.RequestError as e:
+            return {"error": str(e)}
+
 
    
 
-# inline css, metadata, deprecated, headers structure, title, description, favicon, image seo, 
+# inline css, deprecated, headers structure, image seo, 
 def check_http_code(url):
     return
