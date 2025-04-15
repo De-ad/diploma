@@ -1,4 +1,7 @@
 import httpx
+import socket
+import ssl
+import re
 
 async def check_if_robots_file_is_present(url: str):
     url = f"{url.rstrip('/')}/robots.txt"
@@ -41,14 +44,24 @@ async def check_if_sitemap_file_is_present(url: str):
         except httpx.RequestError as e:
             return {"error": str(e)}
 
-def check_ssl_certificate():
+def check_ssl_certificate(url: str):
+    try:
+        ctx = ssl.create_default_context()
+        with ctx.wrap_socket(socket.socket(), server_hostname=url) as s:
+            s.connect((url, 443))
+
+        return {
+                    "result": "has valid cert"
+                }
+
+    except Exception as e:
+         return {
+                    "result": "has invalid cert" +str(e)
+                }
+
+def check_performance_metrics():
     return
 
-def check_mobile_performance_metrics():
-    return
-
-def check_desktop_performace_metrics():
-    return
 
 # inline css, metadata, deprecated, headers structure, title, description, favicon, image seo, 
 def check_http_code(url):
