@@ -29,6 +29,6 @@ class Website(BaseModel):
 
 @app.post("/seo/analyze")
 async def analyze_code(website: Website):
-    return await operations.check_if_robots_file_is_present(website.url)
+    return await operations.analyze(website.url)
 
 
