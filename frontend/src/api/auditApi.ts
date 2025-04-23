@@ -1,9 +1,20 @@
 import axios from "axios";
+import { keysToCamel } from "../utils/caseConverter";
 
 const axiosInstance = axios.create({
   baseURL: "http://127.0.0.1:8001",
-  timeout: 10000,
+  timeout: 30000000,
 });
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    response.data = keysToCamel(response.data);
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export const sendData = async (websiteURL: string, websiteImages?: []) => {
   const formData = new FormData();
@@ -26,6 +37,14 @@ export const sendData = async (websiteURL: string, websiteImages?: []) => {
       console.log(error);
     });
 
+  console.log(response.data);
+  return response.data;
+};
+
+export const sendURL = async (websiteURL: string) => {
+  const response = await axiosInstance.post("/seo/analyze", {
+    url: websiteURL,
+  });
   console.log(response.data);
   return response.data;
 };
