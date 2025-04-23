@@ -14,7 +14,7 @@ export const Audit = () => {
     }
   }, []);
 
-  if(auditResult){
+  if (auditResult) {
     return (
       <>
         <p>{websiteURL}</p>
@@ -28,12 +28,9 @@ export const Audit = () => {
         <p>{auditResult.performance.largestContentfulPaint}</p>
         <p>{auditResult.performance.cumulativeLayoutShift}</p>
         <p>{auditResult.performance.totalBlockingTime}</p>
-        <img src={auditResult.wordcloud.image}/>
+        <img src={auditResult.wordcloud.image} />
       </>
     );
   }
-  return(
-    <></>
-  )
- 
+  return <></>;
 };
