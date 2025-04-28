@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Dict, List, Union
 
 class ErrorResult(BaseModel):
     error: str
@@ -17,22 +17,23 @@ class Metadata(BaseModel):
     
 class SeoResult(BaseModel):
     robots: Union[CheckResult, ErrorResult]
+    sitemap: Union[CheckResult, ErrorResult]
     favicon: Union[CheckResult, ErrorResult]
     ssl_certificate: Union[CheckResult, ErrorResult]
     metadata: Union[Metadata, ErrorResult]
     
-
 class WordCloudResult(BaseModel):
-    image: str
+    data: List[Dict[str, Union[str, int]]]
 
 class Performance(BaseModel):
     performance_score: int
-    first_contentful_paint: int
-    largest_contentful_paint: int
-    cumulative_layout_shift: int
-    total_blocking_time: int
+    first_contentful_paint: str
+    largest_contentful_paint: str
+    cumulative_layout_shift: str
+    total_blocking_time: str
     
 class Analysis(BaseModel):
     seo: SeoResult
     wordcloud: Union[WordCloudResult, ErrorResult]
     performance: Union [Performance, ErrorResult]
+    page_report: list

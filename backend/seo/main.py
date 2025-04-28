@@ -1,6 +1,5 @@
-from fastapi import FastAPI, Form, File, UploadFile
+from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -30,5 +29,6 @@ class Website(BaseModel):
 @app.post("/seo/analyze")
 async def analyze_code(website: Website):
     return await operations.analyze(website.url)
+   
 
 
