@@ -1,13 +1,7 @@
 import { useState } from "react";
-import {
-  getWebsiteNameFromURL,
-  validateURL,
-} from "../../utils/checkWebsiteURL";
-import { useNavigate } from "react-router";
 import { HOME_PAGE_MESSAGE } from "../../constants/text";
 import styles from "./styles.module.css";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { sendData, sendURL } from "../../api/auditApi";
 import { MdClose, MdModeEdit } from "react-icons/md";
 
 type Props = {
@@ -44,7 +38,7 @@ export const Form = ({
           onChange={(e) => setWebsiteURL(e.target.value)}
           value={websiteURL}
         ></input>
-        <p>Анализ дизайна по визуальному представлению (до 10 изображений):</p>
+        <p>Выберите до 5 изображений для анализа дизайна сайта:</p>
         <ImageUploading
           multiple
           value={websiteImages}
@@ -66,10 +60,12 @@ export const Form = ({
                 onClick={onImageUpload}
                 {...dragProps}
               >
-                Выбрать файл
+                Выбрать
               </button>
               &nbsp;
-              <button onClick={onImageRemoveAll}>Удалить все файлы</button>
+              {websiteImages.length > 1 && (
+                <button onClick={onImageRemoveAll}>Удалить все</button>
+              )}
               <div className={styles.uploaded_images_block}>
                 {imageList.map((image, index) => (
                   <div key={index}>
@@ -89,7 +85,7 @@ export const Form = ({
           )}
         </ImageUploading>
 
-        <p>Анализ дизайна по коду html и css:</p>
+        <p>Выберите файлы html и css для анализа дизайна по коду:</p>
         <input
           type="file"
           id="websiteImages"

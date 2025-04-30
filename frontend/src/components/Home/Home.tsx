@@ -5,7 +5,7 @@ import {
 } from "../../utils/checkWebsiteURL";
 import { Form } from "../Form/Form";
 import { Loader } from "../Loader/Loader";
-import { sendURL } from "../../api/auditApi";
+import { sendData, sendURL } from "../../api/auditApi";
 import { useNavigate } from "react-router";
 
 export const Home = () => {

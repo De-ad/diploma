@@ -96,6 +96,7 @@ button:focus-visible {
 input {
   background-color: white;
   border-radius: 8px;
+  color: #17191d;
   width: fit-content;
   border: 1px solid var(--main-color-light);
   padding: 0.6em 1.2em;
