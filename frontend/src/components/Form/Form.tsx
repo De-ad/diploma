@@ -8,6 +8,7 @@ import { HOME_PAGE_MESSAGE } from "../../constants/text";
 import styles from "./styles.module.css";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { sendData, sendURL } from "../../api/auditApi";
+import { MdClose, MdModeEdit } from "react-icons/md";
 
 type Props = {
   setWebsiteURL: React.Dispatch<React.SetStateAction<string>>;
@@ -75,10 +76,10 @@ export const Form = ({
                     <img src={image.dataURL} alt="" width="100" />
                     <div className={styles.images_buttons}>
                       <button onClick={() => onImageUpdate(index)}>
-                        Изменить
+                        <MdModeEdit />
                       </button>
                       <button onClick={() => onImageRemove(index)}>
-                        Удалить
+                        <MdClose />
                       </button>
                     </div>
                   </div>
