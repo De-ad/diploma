@@ -2,19 +2,23 @@ from pydantic import BaseModel
 from typing import Dict, List, Union
 from datetime import datetime
 
+
 class ErrorResult(BaseModel):
     error: str
-    
+
+
 class CheckResult(BaseModel):
     found: bool
     message: str
     status_code: int
+
 
 class Metadata(BaseModel):
     title_value: str | None
     title_found: bool
     description_value: str | None
     description_found: bool
+
 
 class Socials(BaseModel):
     title_value: str | None = None
@@ -30,13 +34,15 @@ class Socials(BaseModel):
     twitter_value: str | None = None
     twitter_found: bool = False
 
+
 class SearchPreview(BaseModel):
     url: str
     title: str | None = None
     description: str | None = None
     has_favicon: bool
     date: datetime | None = None
-        
+
+
 class SeoResult(BaseModel):
     robots: Union[CheckResult, ErrorResult]
     sitemap: Union[CheckResult, ErrorResult]
@@ -45,9 +51,11 @@ class SeoResult(BaseModel):
     metadata: Union[Metadata, ErrorResult]
     socials: Union[Socials, ErrorResult]
     search_preview: Union[SearchPreview, ErrorResult]
-    
+
+
 class WordCloudResult(BaseModel):
     data: List[Dict[str, Union[str, int]]]
+
 
 class Performance(BaseModel):
     performance_score: int
@@ -55,9 +63,10 @@ class Performance(BaseModel):
     largest_contentful_paint: str
     cumulative_layout_shift: str
     total_blocking_time: str
-    
+
+
 class Analysis(BaseModel):
     seo: SeoResult
     wordcloud: Union[WordCloudResult, ErrorResult]
-    performance: Union [Performance, ErrorResult]
+    performance: Union[Performance, ErrorResult]
     page_report: list

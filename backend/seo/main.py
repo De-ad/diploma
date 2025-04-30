@@ -20,15 +20,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logger = logging.getLogger('uvicorn.error')
+logger = logging.getLogger("uvicorn.error")
 logger.setLevel(logging.DEBUG)
+
 
 class Website(BaseModel):
     url: str
 
+
 @app.post("/seo/analyze")
 async def analyze_code(website: Website):
     return await operations.analyze(website.url)
-   
-
-
