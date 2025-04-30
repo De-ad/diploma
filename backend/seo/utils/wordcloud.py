@@ -46,3 +46,7 @@ async def create_word_cloud(url: str,  client: httpx.AsyncClient) -> Union[WordC
             return ErrorResult(error="Status code is not 200")
     except httpx.RequestError as e:
         return ErrorResult(error=str(e))
+
+async def get_distribution_of_keywords():
+    important_tags = ['title', 'description', 'h1', 'h2', 'h3']
+    return

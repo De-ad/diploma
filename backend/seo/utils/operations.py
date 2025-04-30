@@ -25,6 +25,8 @@ async def analyze(url: str) -> Analysis:
         performance_result = await performance.check_performance_metrics(url, client)
         metadata_result = await crawler.check_metadata(url, client)
         ssl_result = await check_ssl_certificate(url)
+        socials_result = await crawler.check_for_social_media_meta_tags(url, client)
+        search_preview_result = await crawler.get_serch_preview(url, client, metadata_result.title_value,  metadata_result.description_found, metadata_result.description_value, favicon_result.found)
         
         return Analysis(
             seo=SeoResult(
@@ -33,6 +35,8 @@ async def analyze(url: str) -> Analysis:
                 favicon=favicon_result,
                 metadata=metadata_result,
                 ssl_certificate=ssl_result,
+                socials=socials_result,
+                search_preview=search_preview_result
             ),
             wordcloud=wordcloud_result,
             performance=performance_result,
