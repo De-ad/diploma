@@ -57,11 +57,6 @@ export const Performance = ({ performance }: Props) => {
 
   return (
     <>
-      <div>
-        Производительность
-        <Circle progress={performance.performanceScore} />
-      </div>
-
       <div className="p-4 bg-white shadow rounded">
         {metricDefinitions.map((metric) => {
           const raw = performance[metric.key];

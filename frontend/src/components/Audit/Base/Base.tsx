@@ -2,11 +2,40 @@ import { SeoResult, WordCloudResult } from "../../../constants/types";
 import { Cloud } from "../../Cloud/Cloud";
 import { MdCheck, MdClose } from "react-icons/md";
 import styles from "./styles.module.css";
+
 type Props = {
   seo: SeoResult;
   wordcloud: WordCloudResult;
 };
+
 export const Base = ({ seo, wordcloud }: Props) => {
+  const {
+    titleFound,
+    typeFound,
+    descriptionFound,
+    imageFound,
+    urlFound,
+    twitterFound,
+  } = seo.socials;
+
+  const foundValues = [
+    titleFound,
+    typeFound,
+    descriptionFound,
+    imageFound,
+    urlFound,
+    twitterFound,
+  ];
+  const allFound = foundValues.every(Boolean);
+  const noneFound = foundValues.every((found) => !found);
+
+  let socials = "Какие-то из необходимых тегов социальных сетей отсутствуют";
+  if (allFound) {
+    socials = "Все необходимые теги социальных сетей присутствуют";
+  } else if (noneFound) {
+    socials = "Отсутствуют теги для социальных сетей";
+  }
+
   return (
     <div className={styles.block}>
       <p>{seo.favicon.message}</p>
@@ -14,6 +43,8 @@ export const Base = ({ seo, wordcloud }: Props) => {
       <p>{seo.metadata.titleValue}</p>
       <p>{seo.metadata.descriptionValue}</p>
       <h2>Социальные сети</h2>
+      <p>{socials}</p>
+      <h2>Облако слов</h2>
       <Cloud words={wordcloud.data} />
       <h2>Search preview</h2>
       <p>

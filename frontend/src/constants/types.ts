@@ -22,13 +22,27 @@ interface SearchPreview {
   hasFavicon: boolean;
   date: Date | null;
 }
+type Socials = {
+  titleValue?: string | null;
+  titleFound: boolean;
+  typeValue?: string | null;
+  typeFound: boolean;
+  descriptionValue?: string | null;
+  descriptionFound: boolean;
+  imageValue?: string | null;
+  imageFound: boolean;
+  urlValue?: string | null;
+  urlFound: boolean;
+  twitterValue?: string | null;
+  twitterFound: boolean;
+};
 
 export interface SeoResult {
   robots: CheckResult | ErrorResult;
   favicon: CheckResult | ErrorResult;
   sslCertificate: CheckResult | ErrorResult;
   metadata: Metadata | ErrorResult;
-  socials: any;
+  socials: Socials | ErrorResult;
   searchPreview: SearchPreview;
 }
 

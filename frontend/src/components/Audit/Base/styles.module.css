@@ -1,7 +1,7 @@
 .block {
   p {
     border-radius: 8px;
-    width: fit-content;
+    width: 100%;
     border: 1px solid var(--main-color);
     padding: 0.6em 1em;
     font-size: 1em;

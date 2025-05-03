@@ -61,9 +61,20 @@ export const Cloud: React.FC<WordCloudProps> = ({ words }) => {
       .style("font-size", (d) => `${d.size}px`)
       .style("font-family", "Impact")
       .style("fill", () => schemeCategory10[Math.floor(Math.random() * 10)])
+      .style("cursor", "pointer") // make cursor a pointer
       .attr("text-anchor", "middle")
       .attr("transform", (d) => `translate(${d.x},${d.y}) rotate(${d.rotate})`)
-      .text((d) => d.text);
+      .text((d) => d.text)
+      .on("mouseover", function (event, d) {
+        d3.select(this).style("fill", "red"); // highlight color
+      })
+      .on("mouseout", function (event, d) {
+        d3.select(this)
+          .style("fill", () => schemeCategory10[Math.floor(Math.random() * 10)])
+          .style("text-decoration", "none");
+      })
+      .append("title")
+      .text((d) => `Value: ${d.size}`);
   }, [cloudWords]);
 
   useEffect(() => {

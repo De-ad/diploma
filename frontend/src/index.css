@@ -6,7 +6,7 @@
   color-scheme: light dark;
   color: #17191d;
   background-color: white;
-
+  /* background-color: #f5f8fa; */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,6 +14,7 @@
 
   --main-color-light: #9e7ff4;
   --main-color: #8c61ff;
+  --main-text: #17191d;
   --google-title: #1a0dab;
   --google-description: #474747;
   --google-link: #4d5156;
@@ -74,7 +75,7 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
 }
 
@@ -89,6 +90,7 @@ button {
   background-color: var(--main-color);
   cursor: pointer;
   transition: border-color 0.25s;
+  color: white;
 }
 button:hover {
   background-color: var(--main-color-light);

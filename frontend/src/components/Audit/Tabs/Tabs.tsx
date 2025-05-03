@@ -3,7 +3,7 @@ import { Base } from "../Base/Base";
 import { Performance } from "../Performance/Performance";
 import { Design } from "../Design/Design";
 import { Analysis } from "../../../constants/types";
-
+import styles from "./styles.module.css";
 type Props = {
   auditResult: Analysis;
 };
@@ -23,13 +23,26 @@ export const Tabs = ({ auditResult }: Props) => {
     }
   };
   return (
-    <>
-      <button onClick={() => setCurrentTab("base")}>Base</button>
-      <button onClick={() => setCurrentTab("performance")}>
+    <span>
+      <button
+        onClick={() => setCurrentTab("base")}
+        className={`${styles.tab} ${currentTab === "base" ? styles.activeTab : ""}`}
+      >
+        Base
+      </button>
+      <button
+        onClick={() => setCurrentTab("performance")}
+        className={`${styles.tab} ${currentTab === "performance" ? styles.activeTab : ""}`}
+      >
         Производительность
       </button>
-      <button onClick={() => setCurrentTab("design")}>Дизайн</button>
+      <button
+        onClick={() => setCurrentTab("design")}
+        className={`${styles.tab} ${currentTab === "design" ? styles.activeTab : ""}`}
+      >
+        Дизайн
+      </button>
       <div style={{ marginTop: "1rem" }}>{renderTab()}</div>
-    </>
+    </span>
   );
 };
