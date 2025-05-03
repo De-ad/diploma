@@ -25,7 +25,9 @@ export const Tabs = ({ auditResult }: Props) => {
   return (
     <>
       <button onClick={() => setCurrentTab("base")}>Base</button>
-      <button onClick={() => setCurrentTab("performance")}>Performance</button>
+      <button onClick={() => setCurrentTab("performance")}>
+        Производительность
+      </button>
       <button onClick={() => setCurrentTab("design")}>Дизайн</button>
       <div style={{ marginTop: "1rem" }}>{renderTab()}</div>
     </>

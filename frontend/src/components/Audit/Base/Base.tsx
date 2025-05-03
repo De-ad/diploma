@@ -1,5 +1,6 @@
 import { SeoResult, WordCloudResult } from "../../../constants/types";
 import { Cloud } from "../../Cloud/Cloud";
+import { MdCheck, MdClose } from "react-icons/md";
 
 type Props = {
   seo: SeoResult;
