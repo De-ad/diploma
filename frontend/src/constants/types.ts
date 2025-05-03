@@ -15,11 +15,21 @@ interface Metadata {
   descriptionFound: boolean;
 }
 
+interface SearchPreview {
+  url: string;
+  title: string | null;
+  description: string | null;
+  hasFavicon: boolean;
+  date: Date | null;
+}
+
 export interface SeoResult {
   robots: CheckResult | ErrorResult;
   favicon: CheckResult | ErrorResult;
   sslCertificate: CheckResult | ErrorResult;
   metadata: Metadata | ErrorResult;
+  socials: any;
+  searchPreview: SearchPreview;
 }
 
 export interface WordCloudResult {

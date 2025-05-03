@@ -14,6 +14,11 @@
 
   --main-color-light: #9e7ff4;
   --main-color: #8c61ff;
+  --google-title: #1a0dab;
+  --google-description: #474747;
+  --google-link: #4d5156;
+  --google-border: #d2d2d2;
+  --google-background: #f3f5f6;
 }
 
 #root {
