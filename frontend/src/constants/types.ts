@@ -15,18 +15,18 @@ interface Metadata {
   descriptionFound: boolean;
 }
 
-interface SeoResult {
+export interface SeoResult {
   robots: CheckResult | ErrorResult;
   favicon: CheckResult | ErrorResult;
   sslCertificate: CheckResult | ErrorResult;
   metadata: Metadata | ErrorResult;
 }
 
-interface WordCloudResult {
+export interface WordCloudResult {
   image: string;
 }
 
-interface Performance {
+export interface Performance {
   performanceScore: number;
   firstContentfulPaint: number;
   largestContentfulPaint: number;
