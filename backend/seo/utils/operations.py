@@ -6,7 +6,7 @@ from typing import Union
 from . import performance
 from . import wordcloud
 from . import crawler
-from models.analysis import Analysis, CheckResult, ErrorResult, SeoResult
+from models.analysis import Analysis, CheckResult, ErrorResult, SeoFiles, SeoResult
 import logging
 
 logger = logging.getLogger(__name__)
@@ -25,6 +25,9 @@ async def analyze(url: str) -> Analysis:
         sitemap_result = await check_file_exists(url, "sitemap.xml", client)
         favicon_result = await check_if_favicon_is_present(url, client)
         wordcloud_result = await wordcloud.create_word_cloud(url, client)
+        keywords_destribution = await wordcloud.get_distribution_of_keywords(
+            url, client
+        )
         performance_result = await performance.check_performance_metrics(url, client)
         metadata_result = await crawler.check_metadata(url, client)
         ssl_result = await check_ssl_certificate(url)
@@ -40,15 +43,16 @@ async def analyze(url: str) -> Analysis:
 
         return Analysis(
             seo=SeoResult(
-                robots=robots_result,
-                sitemap=sitemap_result,
-                favicon=favicon_result,
+                seo_files=SeoFiles(
+                    robots=robots_result, sitemap=sitemap_result, favicon=favicon_result
+                ),
                 metadata=metadata_result,
                 ssl_certificate=ssl_result,
                 socials=socials_result,
                 search_preview=search_preview_result,
             ),
             wordcloud=wordcloud_result,
+            keywords_destribution=keywords_destribution,
             performance=performance_result,
             page_report=results,
         )
@@ -64,6 +68,7 @@ async def check_file_exists(
         return CheckResult(
             found=found,
             status_code=response.status_code,
+            file_extension=None,
             message=f"{filename} {'found' if found else 'not found'}",
         )
     except httpx.RequestError as e:
@@ -83,6 +88,7 @@ async def check_if_favicon_is_present(
                 return CheckResult(
                     found=True,
                     status_code=response.status_code,
+                    file_extension=ext,
                     message=f"favicon.{ext} found",
                 )
         except httpx.RequestError as e:
@@ -103,7 +109,10 @@ async def check_ssl_certificate(url: str):
             s.connect((clean_url, 443))
 
         return CheckResult(
-            found=True, status_code=200, message="Has valid ssl certificate"
+            found=True,
+            status_code=200,
+            message="Has valid ssl certificate",
+            file_extension=None,
         )
 
     except Exception as e:

@@ -10,6 +10,7 @@ class ErrorResult(BaseModel):
 class CheckResult(BaseModel):
     found: bool
     message: str
+    file_extension: str | None
     status_code: int
 
 
@@ -43,10 +44,14 @@ class SearchPreview(BaseModel):
     date: datetime | None = None
 
 
-class SeoResult(BaseModel):
+class SeoFiles(BaseModel):
     robots: Union[CheckResult, ErrorResult]
     sitemap: Union[CheckResult, ErrorResult]
     favicon: Union[CheckResult, ErrorResult]
+
+
+class SeoResult(BaseModel):
+    seo_files: SeoFiles
     ssl_certificate: Union[CheckResult, ErrorResult]
     metadata: Union[Metadata, ErrorResult]
     socials: Union[Socials, ErrorResult]
@@ -57,16 +62,40 @@ class WordCloudResult(BaseModel):
     data: List[Dict[str, Union[str, int]]]
 
 
-class Performance(BaseModel):
+class PerformanceMetrics(BaseModel):
     performance_score: int
     first_contentful_paint: str
     largest_contentful_paint: str
     cumulative_layout_shift: str
     total_blocking_time: str
+    speed_index: str
+
+
+class Performance(BaseModel):
+    mobile: PerformanceMetrics
+    desktop: PerformanceMetrics
+
+
+class BrokenLink(BaseModel):
+    link: str
+    error: str
+
+
+class PageIssues(BaseModel):
+    h1_missing: Union[bool, None] = None
+    inline_code: Union[bool, None] = None
+    image_seo: Union[List[str], None] = None
+    broken_links: Union[List[BrokenLink], None] = None
+
+
+class PageReport(BaseModel):
+    url: str
+    issues: PageIssues
 
 
 class Analysis(BaseModel):
     seo: SeoResult
+    keywords_destribution: Union[dict, ErrorResult]
     wordcloud: Union[WordCloudResult, ErrorResult]
     performance: Union[Performance, ErrorResult]
-    page_report: list
+    page_report: List[PageReport]

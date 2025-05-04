@@ -1,3 +1,4 @@
+from urllib.parse import urlparse
 from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -28,6 +29,14 @@ class Website(BaseModel):
     url: str
 
 
+def strip_url(url: str) -> str:
+    parsed_url = urlparse(url)
+    if parsed_url.scheme and parsed_url.netloc:
+        return f"{parsed_url.scheme}://{parsed_url.netloc}"
+    else:
+        raise ValueError("URL is invalid or missing scheme")
+
+
 @app.post("/seo/analyze")
 async def analyze_code(website: Website):
-    return await operations.analyze(website.url)
+    return await operations.analyze(strip_url(website.url))

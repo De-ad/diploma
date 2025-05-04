@@ -3,7 +3,15 @@ from typing import Union
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 import httpx
-from models.analysis import ErrorResult, Metadata, SearchPreview, Socials
+from models.analysis import (
+    BrokenLink,
+    ErrorResult,
+    Metadata,
+    PageIssues,
+    PageReport,
+    SearchPreview,
+    Socials,
+)
 import json
 
 visited = set()
@@ -40,7 +48,6 @@ async def check_link_status(client, url):
 
 
 async def crawl(url, domain, client, results):
-    page_report = {"url": url, "issues": []}
     if url in visited:
         return
     visited.add(url)
@@ -51,38 +58,43 @@ async def crawl(url, domain, client, results):
 
     soup = BeautifulSoup(html, "html.parser")
 
-    for img in soup.find_all("img"):
-        if "alt" not in img.attrs:
-            results.append({"url": url, "image_snippet": str(img)[:150]})
+    issues = PageIssues()
+
+    # Image SEO (missing alt)
+    image_snippets = [
+        str(img)[:150] for img in soup.find_all("img") if "alt" not in img.attrs
+    ]
+    if image_snippets:
+        issues.image_seo = image_snippets
+
+    # H1 tag checks
     h1_tags = soup.find_all("h1")
     if len(h1_tags) == 0:
-        page_report["issues"].append("Missing <h1> tag")
-    elif len(h1_tags) > 1:
-        page_report["issues"].append("Multiple <h1> tags")
+        issues.h1_missing = True
 
+    # Inline <style> or <script>
     if soup.find("style") or soup.find("script"):
-        page_report["issues"].append("Inline <style> or <script> found")
-    large_images = []
-    for img in soup.find_all("img"):
-        if estimate_image_is_large(img):
-            large_images.append(img.get("src", "")[:100])
-    if large_images:
-        page_report["issues"].append(f"Potential large images: {large_images[:3]}")
+        issues.inline_code = True
 
-    if not soup.find("meta", attrs={"name": "viewport"}):
-        page_report["issues"].append("Missing viewport meta tag (mobile-unfriendly)")
-
-    if page_report["issues"]:
-        results.append(page_report)
-
+    # Broken links
+    broken_links = []
     tasks = []
     for link in soup.find_all("a", href=True):
         next_url = urljoin(url, link["href"])
         if urlparse(next_url).netloc == domain and next_url not in visited:
             tasks.append(crawl(next_url, domain, client, results))
+
         status = await check_link_status(client, next_url)
         if status:
-            page_report["issues"].append(f"Broken link: {next_url} - {status}")
+            broken_links.append(BrokenLink(link=next_url, error=status))
+    if broken_links:
+        issues.broken_links = broken_links
+
+    if any(
+        [issues.h1_missing, issues.inline_code, issues.image_seo, issues.broken_links]
+    ):
+        results.append(PageReport(url=url, issues=issues))
+
     await asyncio.gather(*tasks)
 
 
