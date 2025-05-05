@@ -21,16 +21,21 @@ export const Audit = () => {
     return (
       <div>
         <h1>Результаты анализа {websiteURL}</h1>
-        <h2>Общее</h2>
+        <h2>Общая оценка</h2>
         <div className={styles.grade}>
           <div className={styles.param}>
-            Общая оценка
-            <Circle progress={auditResult.performance.performanceScore} />
+            <Circle
+              progress={auditResult.performance.mobile.performanceScore}
+              colored={true}
+            />
           </div>
 
           <div className={styles.separateParams}>
             <div className={styles.param}>
-              <HalfCircle progress={auditResult.performance.performanceScore} />
+              <HalfCircle
+                progress={auditResult.performance.desktop.performanceScore}
+                colored={true}
+              />
               Производительность
             </div>
             <div className={styles.param}>

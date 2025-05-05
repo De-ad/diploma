@@ -7,8 +7,8 @@
 .separateParams {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem; 
-  width: 100%;
+  gap: 2rem;
+
   max-width: 800px;
   margin-top: 1rem;
 }

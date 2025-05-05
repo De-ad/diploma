@@ -24,6 +24,7 @@
     "react-images-uploading": "^3.1.7",
     "react-router": "^7.3.0",
     "react-spinners": "^0.17.0",
+    "recharts": "^2.15.3",
     "wordcloud": "^1.2.3"
   },
   "devDependencies": {

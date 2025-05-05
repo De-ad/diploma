@@ -20,6 +20,9 @@
   --google-link: #4d5156;
   --google-border: #d2d2d2;
   --google-background: #f3f5f6;
+  --green: #4fc775;
+  --yellow: #ffd656;
+  --red: #ff5952;
 }
 
 #root {
@@ -59,11 +62,12 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--main-color);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--main-color);
+  text-decoration: underline;
 }
 
 body {
@@ -79,6 +83,12 @@ h1 {
   line-height: 1.1;
 }
 
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 1rem;
+}
 button {
   border-radius: 8px;
   width: fit-content;

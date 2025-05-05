@@ -86,15 +86,15 @@
 }
 
 .green {
-  background-color: #4fc775;
+  background-color: var(--green);
 }
 
 .yellow {
-  background-color: #ffd656;
+  background-color: var(--yellow);
 }
 
 .red {
-  background-color: #ff5952;
+  background-color: var(--red);
 }
 .valueLabel {
   position: absolute;
