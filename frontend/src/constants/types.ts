@@ -4,31 +4,24 @@ export interface ErrorResult {
 
 export interface CheckResult {
   found: boolean;
-  message: string;
+  message?: string | null;
   fileExtension?: string | null;
-  statusCode: number;
+  statusCode?: number | null;
+  error?: string | null;
 }
 
 export interface Metadata {
-  titleValue: string | null;
-  titleFound: boolean;
-  descriptionValue: string | null;
-  descriptionFound: boolean;
+  title: string | null;
+  description: string | null;
 }
 
 export interface Socials {
   titleValue?: string | null;
-  titleFound?: boolean;
   typeValue?: string | null;
-  typeFound?: boolean;
   descriptionValue?: string | null;
-  descriptionFound?: boolean;
   imageValue?: string | null;
-  imageFound?: boolean;
   urlValue?: string | null;
-  urlFound?: boolean;
   twitterValue?: string | null;
-  twitterFound?: boolean;
 }
 
 export interface SearchPreview {
@@ -40,17 +33,22 @@ export interface SearchPreview {
 }
 
 export interface SeoFiles {
-  robots: CheckResult | ErrorResult;
-  sitemap: CheckResult | ErrorResult;
-  favicon: CheckResult | ErrorResult;
+  robots: CheckResult;
+  sitemap: CheckResult;
+  favicon: CheckResult;
 }
 
 export interface SeoResult {
   seoFiles: SeoFiles;
-  sslCertificate: CheckResult | ErrorResult;
+  sslCertificate: CheckResult;
   metadata: Metadata | ErrorResult;
   socials: Socials | ErrorResult;
   searchPreview: SearchPreview | ErrorResult;
+  spfRecord: CheckResult;
+  canonicalUrl?: string | null;
+  structuredData?: Array<Record<string, any>>;
+  charset?: string | null;
+  doctype?: string | null;
 }
 
 export interface WordCloudResult {
@@ -66,9 +64,38 @@ export interface PerformanceMetrics {
   speedIndex: string;
 }
 
+export interface ImageInfo {
+  src: string;
+  sizeKb: number;
+}
+
+export interface AssetIssues {
+  uncachedJs: string[];
+  unminifiedJs: string[];
+  uncachedCss: string[];
+  unminifiedCss: string[];
+}
+
+export interface HtmlCompression {
+  uncompressedSizeKb: number;
+  compressedSizeKb: number;
+  compressionType: string;
+  compressionRatePercent: number;
+}
+
+export interface DataMetrics {
+  domSize: number;
+  htmlCompression: HtmlCompression;
+  totalImages: number;
+  oversizedImages: ImageInfo[];
+  uncachedImages: string[];
+  assetIssues: AssetIssues;
+}
+
 export interface Performance {
   mobile: PerformanceMetrics;
   desktop: PerformanceMetrics;
+  dataMetrics: DataMetrics;
 }
 
 export interface BrokenLink {
@@ -81,6 +108,10 @@ export interface PageIssues {
   inlineCode?: boolean | null;
   imageSeo?: string[] | null;
   brokenLinks?: BrokenLink[] | null;
+  noindex?: boolean | null;
+  flashContent?: boolean | null;
+  framesetUsed?: boolean | null;
+  unsafeLinks?: string[] | null;
 }
 
 export interface PageReport {
@@ -90,13 +121,13 @@ export interface PageReport {
 
 export interface Analysis {
   seo: SeoResult;
-  keywordsDestribution: { [key: string]: any } | ErrorResult;
+  keywordsDistribution: { [key: string]: any } | ErrorResult;
   wordcloud: WordCloudResult | ErrorResult;
   performance: Performance | ErrorResult;
   pageReport: PageReport[];
 }
 
-export interface KeywordsDestribution {
+export interface KeywordsDistribution {
   title: any;
   description: any;
   headings: any;

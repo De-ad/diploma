@@ -19,7 +19,7 @@ export const Tabs = ({ auditResult }: Props) => {
           <Base
             seo={auditResult.seo}
             wordcloud={auditResult.wordcloud}
-            keywordsDistribution={auditResult.keywordsDestribution}
+            keywordsDistribution={auditResult.keywordsDistribution}
             pageReport={auditResult.pageReport}
           />
         );
@@ -44,6 +44,12 @@ export const Tabs = ({ auditResult }: Props) => {
         className={`${styles.tab} ${currentTab === "performance" ? styles.activeTab : ""}`}
       >
         Производительность
+      </button>
+      <button
+        onClick={() => setCurrentTab("base")}
+        className={`${styles.tab} ${currentTab === "base" ? styles.activeTab : ""}`}
+      >
+        Безопасность
       </button>
       <button
         onClick={() => setCurrentTab("design")}

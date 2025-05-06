@@ -7,11 +7,11 @@ import {
   CartesianGrid,
   Bar,
 } from "recharts";
-import { KeywordsDestribution } from "../../constants/types";
+import { KeywordsDistribution } from "../../constants/types";
 import styles from "./styles.module.css";
 
 type Props = {
-  keywordsDistribution: KeywordsDestribution;
+  keywordsDistribution: KeywordsDistribution;
 };
 
 export const Table = ({ keywordsDistribution }: Props) => {

@@ -83,4 +83,152 @@ export const SEO_PARAMS = [
     positiveResultText: "Нет сломанных ссылок",
     negativeResultText: "Присутствуют сломанные ссылки",
   },
+  {
+    key: "spfRecord",
+    title: "SPF-запись",
+    description:
+      "SPF (Sender Policy Framework) — это запись в DNS, которая указывает, какие серверы могут отправлять электронную почту от имени домена. Это важно для защиты от подделки отправителя (spoofing).",
+    positiveResultText: "SPF-запись настроена правильно",
+    negativeResultText: "Отсутствует SPF-запись или она настроена некорректно",
+  },
+  {
+    key: "canonicalUrl",
+    title: "Канонический URL",
+    description:
+      'Канонический тег <link rel="canonical"> сообщает поисковым системам, какая версия страницы является основной, предотвращая дублирование контента.',
+    positiveResultText: "На странице указан канонический URL",
+    negativeResultText: "Канонический URL отсутствует",
+  },
+  {
+    key: "structuredData",
+    title: "Структурированные данные",
+    description:
+      "Структурированные данные (schema.org, JSON-LD) помогают поисковым системам лучше понимать содержание страницы и позволяют отображать расширенные сниппеты в выдаче.",
+    positiveResultText: "На странице присутствуют структурированные данные",
+    negativeResultText: "Отсутствуют структурированные данные",
+  },
+  {
+    key: "charset",
+    title: "Кодировка страницы",
+    description:
+      "Указание кодировки (например, UTF-8) в мета-теге предотвращает проблемы с отображением текста и влияет на корректную индексацию.",
+    positiveResultText: "Указана кодировка UTF-8",
+    negativeResultText: "Кодировка не указана или указана некорректно",
+  },
+  {
+    key: "doctype",
+    title: "Doctype",
+    description:
+      "Тег <!DOCTYPE> сообщает браузеру, в каком стандарте написан HTML-код. Отсутствие этого тега может вызвать проблемы с отображением страницы.",
+    positiveResultText: "Указан doctype",
+    negativeResultText: "Doctype отсутствует",
+  },
+  {
+    key: "noindex",
+    title: "Мета-тег noindex",
+    description:
+      "Мета-тег noindex предотвращает индексацию страницы поисковыми системами. Полезен для страниц, не предназначенных для публичного поиска.",
+    positiveResultText: "На неиндексируемых страницах установлен тег noindex",
+    negativeResultText:
+      "Отсутствует тег noindex на страницах, которые не должны индексироваться",
+  },
+  {
+    key: "flashContent",
+    title: "Flash-контент",
+    description:
+      "Использование Flash устарело и не поддерживается большинством современных браузеров. Его наличие негативно влияет на пользовательский опыт и SEO.",
+    positiveResultText: "Flash-контент не используется",
+    negativeResultText: "На сайте используется устаревший Flash-контент",
+  },
+  {
+    key: "framesetUsed",
+    title: "Использование <frameset>",
+    description:
+      "Элемент <frameset> является устаревшим и мешает корректной индексации сайта. Его использование не рекомендуется.",
+    positiveResultText: "Элемент <frameset> не используется",
+    negativeResultText: "На сайте используется элемент <frameset>",
+  },
+  {
+    key: "unsafeLinks",
+    title: "Небезопасные ссылки",
+    description:
+      'Ссылки на внешние ресурсы без параметра rel="noopener noreferrer" могут представлять угрозу безопасности, особенно при использовании target="_blank".',
+    positiveResultText: "Все внешние ссылки безопасны",
+    negativeResultText: "На сайте есть небезопасные внешние ссылки",
+  },
+];
+
+export const PERFORMANCE_PARAMS = [
+  {
+    key: "domSize",
+    title: "Размер DOM",
+    description:
+      "Количество элементов в DOM влияет на производительность страницы. Слишком большой DOM может замедлить загрузку и рендеринг.",
+    positiveResultText: "Размер DOM находится в пределах нормы",
+    negativeResultText: "DOM содержит слишком много элементов",
+  },
+  {
+    key: "htmlSize",
+    title: "Размер HTML-страницы",
+    description:
+      "Чем меньше размер HTML-файла, тем быстрее он загружается. Большой размер может повлиять на время отклика и индексируемость.",
+    positiveResultText: "Размер HTML-файла оптимален",
+    negativeResultText: "HTML-файл слишком большой",
+  },
+  {
+    key: "htmlCompression",
+    title: "Сжатие HTML",
+    description:
+      "Сжатие HTML (например, через GZIP) позволяет уменьшить объем передаваемых данных и ускорить загрузку страницы.",
+    positiveResultText: "HTML-файл сжимается на сервере",
+    negativeResultText: "Сжатие HTML-файла отсутствует",
+  },
+  {
+    key: "uncachedJs",
+    title: "Кэширование JS-файлов",
+    description:
+      "Настроенное кэширование JavaScript-файлов уменьшает количество загрузок и ускоряет работу сайта при повторных посещениях.",
+    positiveResultText: "Кэширование JavaScript-файлов настроено",
+    negativeResultText: "Отсутствует кэширование JavaScript-файлов",
+  },
+  {
+    key: "uncachedCss",
+    title: "Кэширование CSS-файлов",
+    description:
+      "Кэширование CSS-файлов позволяет повторно использовать стили без повторной загрузки, что улучшает производительность.",
+    positiveResultText: "Кэширование CSS-файлов настроено",
+    negativeResultText: "Отсутствует кэширование CSS-файлов",
+  },
+  {
+    key: "unminifiedCss",
+    title: "Минификация CSS",
+    description:
+      "Минификация CSS удаляет лишние пробелы и комментарии, уменьшая объем файлов и ускоряя загрузку.",
+    positiveResultText: "CSS-файлы минифицированы",
+    negativeResultText: "CSS-файлы не минифицированы",
+  },
+  {
+    key: "unminifiedJs",
+    title: "Минификация JS",
+    description:
+      "Минификация JavaScript уменьшает размер файлов и повышает производительность сайта.",
+    positiveResultText: "JavaScript-файлы минифицированы",
+    negativeResultText: "JavaScript-файлы не минифицированы",
+  },
+  {
+    key: "uncachedImages",
+    title: "Кэширование изображений",
+    description:
+      "Кэширование изображений снижает нагрузку на сервер и ускоряет повторную загрузку страниц пользователями.",
+    positiveResultText: "Изображения кэшируются корректно",
+    negativeResultText: "Некоторые изображения не кэшируются",
+  },
+  {
+    key: "oversizedImages",
+    title: "Размер изображений",
+    description:
+      "Слишком большие изображения замедляют загрузку страниц и потребляют трафик. Их следует оптимизировать.",
+    positiveResultText: "Размер изображений в пределах нормы",
+    negativeResultText: "Некоторые изображения слишком большие",
+  },
 ];

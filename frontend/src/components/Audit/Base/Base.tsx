@@ -1,6 +1,5 @@
 import {
-  BrokenLink,
-  KeywordsDestribution,
+  KeywordsDistribution,
   PageIssues,
   PageReport,
   SeoResult,
@@ -16,7 +15,7 @@ import { SEO_PARAMS } from "../../../constants/text";
 type Props = {
   seo: SeoResult;
   wordcloud: WordCloudResult;
-  keywordsDistribution: KeywordsDestribution;
+  keywordsDistribution: KeywordsDistribution;
   pageReport: PageReport[];
 };
 
