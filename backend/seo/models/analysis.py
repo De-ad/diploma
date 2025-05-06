@@ -7,33 +7,26 @@ class ErrorResult(BaseModel):
     error: str
 
 
-class CheckResult(BaseModel):
-    found: bool
-    message: str
-    file_extension: str | None
-    status_code: int
+class Check(BaseModel):
+    found: bool = False
+    message: str | None = None
+    file_extension: str | None = None
+    status_code: int | None = None
+    error: str | None = None
 
 
 class Metadata(BaseModel):
-    title_value: str | None
-    title_found: bool
-    description_value: str | None
-    description_found: bool
+    title: str | None
+    description: str | None
 
 
 class Socials(BaseModel):
     title_value: str | None = None
-    title_found: bool = False
     type_value: str | None = None
-    type_found: bool = False
     description_value: str | None = None
-    description_found: bool = False
     image_value: str | None = None
-    image_found: bool = False
     url_value: str | None = None
-    url_found: bool = False
     twitter_value: str | None = None
-    twitter_found: bool = False
 
 
 class SearchPreview(BaseModel):
@@ -45,17 +38,22 @@ class SearchPreview(BaseModel):
 
 
 class SeoFiles(BaseModel):
-    robots: Union[CheckResult, ErrorResult]
-    sitemap: Union[CheckResult, ErrorResult]
-    favicon: Union[CheckResult, ErrorResult]
+    robots: Check
+    sitemap: Check
+    favicon: Check
 
 
 class SeoResult(BaseModel):
     seo_files: SeoFiles
-    ssl_certificate: Union[CheckResult, ErrorResult]
+    ssl_certificate: Check
     metadata: Union[Metadata, ErrorResult]
     socials: Union[Socials, ErrorResult]
     search_preview: Union[SearchPreview, ErrorResult]
+    spf_record: Check
+    canonical_url: str | None = None
+    structured_data: List[dict] = []
+    charset: str | None = None
+    doctype: str | None = None
 
 
 class WordCloudResult(BaseModel):
@@ -71,10 +69,34 @@ class PerformanceMetrics(BaseModel):
     speed_index: str
 
 
+class ImageInfo(BaseModel):
+    src: str
+    size_kb: float
+
+class AssetIssues(BaseModel):
+    uncached_js: List[str]
+    unminified_js: List[str]
+    uncached_css: List[str]
+    unminified_css: List[str]
+
+class HtmlCompression(BaseModel):
+    uncompressed_size_kb: float
+    compressed_size_kb: float
+    compression_type: str
+    compression_rate_percent: float
+
+class DataMetrics(BaseModel):
+    dom_size: int
+    html_compression: HtmlCompression
+    total_images: int
+    oversized_images: List[ImageInfo]
+    uncached_images: List[str]
+    asset_issues: AssetIssues
+
 class Performance(BaseModel):
     mobile: PerformanceMetrics
     desktop: PerformanceMetrics
-
+    data_metrics: DataMetrics
 
 class BrokenLink(BaseModel):
     link: str
@@ -82,10 +104,14 @@ class BrokenLink(BaseModel):
 
 
 class PageIssues(BaseModel):
-    h1_missing: Union[bool, None] = None
-    inline_code: Union[bool, None] = None
-    image_seo: Union[List[str], None] = None
-    broken_links: Union[List[BrokenLink], None] = None
+    h1_missing: bool = False
+    inline_code: bool = False
+    image_seo: List[str] = []
+    broken_links: List[BrokenLink] = []
+    noindex: bool = False
+    flash_content: bool = False
+    frameset_used: bool = False
+    unsafe_links: List[str] = []
 
 
 class PageReport(BaseModel):
@@ -95,7 +121,7 @@ class PageReport(BaseModel):
 
 class Analysis(BaseModel):
     seo: SeoResult
-    keywords_destribution: Union[dict, ErrorResult]
+    keywords_distribution: Union[dict, ErrorResult]
     wordcloud: Union[WordCloudResult, ErrorResult]
     performance: Union[Performance, ErrorResult]
     page_report: List[PageReport]

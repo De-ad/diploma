@@ -109,8 +109,7 @@ async def get_distribution_of_keywords(
             distribution[tag] = keyword_matches
 
         total_counts = {
-            keyword: filtered_words.count(keyword)
-            for keyword in top_keywords
+            keyword: filtered_words.count(keyword) for keyword in top_keywords
         }
         distribution["total"] = total_counts
 

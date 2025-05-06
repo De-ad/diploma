@@ -1,4 +1,5 @@
 from urllib.parse import urlparse
+from bs4 import BeautifulSoup
 import httpx
 import socket
 import ssl
@@ -6,11 +7,7 @@ from typing import Union
 from . import performance
 from . import wordcloud
 from . import crawler
-from models.analysis import Analysis, CheckResult, ErrorResult, SeoFiles, SeoResult
-import logging
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+from models.analysis import Analysis, AssetIssues, Check, ErrorResult, ImageInfo, SeoFiles, SeoResult
 
 
 async def analyze(url: str) -> Analysis:
@@ -18,28 +15,42 @@ async def analyze(url: str) -> Analysis:
     async with httpx.AsyncClient(
         http2=True, follow_redirects=True, timeout=30
     ) as client:
+        visited = set()
         results = []
-        await crawler.crawl(url, domain, client, results)
+        await crawler.crawl(url, domain, client, results, visited)
+        favicon_result = await check_if_favicon_is_present(url, client)
+        
+        try:
+            response = await client.get(url)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, "html.parser")
+                canonical_url = crawler.check_canonical_tag(soup)
+                structured_data = crawler.check_structured_data(soup)
+                charset = crawler.check_charset(soup)
+                doctype = crawler.check_doctype(response.text)
+                metadata_result = await crawler.check_metadata(soup)
+                socials_result = await crawler.check_for_social_media_meta_tags(soup)
+                search_preview_result = await crawler.get_serch_preview(
+                    url,
+                    soup,
+                    metadata_result.title,
+                    metadata_result.description,
+                    favicon_result.found,
+                )
+
+        except httpx.RequestError as e:
+            return ErrorResult(error=str(e))
 
         robots_result = await check_file_exists(url, "robots.txt", client)
         sitemap_result = await check_file_exists(url, "sitemap.xml", client)
-        favicon_result = await check_if_favicon_is_present(url, client)
+
         wordcloud_result = await wordcloud.create_word_cloud(url, client)
-        keywords_destribution = await wordcloud.get_distribution_of_keywords(
+        keywords_distribution = await wordcloud.get_distribution_of_keywords(
             url, client
         )
         performance_result = await performance.check_performance_metrics(url, client)
-        metadata_result = await crawler.check_metadata(url, client)
+        spf_record = await crawler.check_spf_record(domain)
         ssl_result = await check_ssl_certificate(url)
-        socials_result = await crawler.check_for_social_media_meta_tags(url, client)
-        search_preview_result = await crawler.get_serch_preview(
-            url,
-            client,
-            metadata_result.title_value,
-            metadata_result.description_found,
-            metadata_result.description_value,
-            favicon_result.found,
-        )
 
         return Analysis(
             seo=SeoResult(
@@ -50,9 +61,14 @@ async def analyze(url: str) -> Analysis:
                 ssl_certificate=ssl_result,
                 socials=socials_result,
                 search_preview=search_preview_result,
+                canonical_url=canonical_url,
+                structured_data=structured_data,
+                charset=charset,
+                doctype=doctype,
+                spf_record=spf_record
             ),
             wordcloud=wordcloud_result,
-            keywords_destribution=keywords_destribution,
+            keywords_distribution=keywords_distribution,
             performance=performance_result,
             page_report=results,
         )
@@ -60,12 +76,12 @@ async def analyze(url: str) -> Analysis:
 
 async def check_file_exists(
     url: str, filename: str, client: httpx.AsyncClient
-) -> Union[CheckResult, ErrorResult]:
+) -> Union[Check, ErrorResult]:
     file_url = f"{url.rstrip('/')}/{filename}"
     try:
         response = await client.get(file_url)
         found = response.status_code == 200
-        return CheckResult(
+        return Check(
             found=found,
             status_code=response.status_code,
             file_extension=None,
@@ -77,7 +93,7 @@ async def check_file_exists(
 
 async def check_if_favicon_is_present(
     url: str, client: httpx.AsyncClient
-) -> Union[CheckResult, ErrorResult]:
+) -> Union[Check, ErrorResult]:
     favicon_extensions = ["ico", "png", "svg"]
     url = url.rstrip("/")
     for ext in favicon_extensions:
@@ -85,7 +101,7 @@ async def check_if_favicon_is_present(
         try:
             response = await client.get(favicon_url)
             if response.status_code == 200:
-                return CheckResult(
+                return Check(
                     found=True,
                     status_code=response.status_code,
                     file_extension=ext,
@@ -94,9 +110,7 @@ async def check_if_favicon_is_present(
         except httpx.RequestError as e:
             return ErrorResult(error=str(e))
 
-    return CheckResult(
-        found=False, status_code=response.status_code, message="No favicon found"
-    )
+    return Check(found=False, status_code=None, message="No favicon found")
 
 
 # should have clean url like example.com
@@ -108,7 +122,7 @@ async def check_ssl_certificate(url: str):
         with ctx.wrap_socket(socket.socket(), server_hostname=clean_url) as s:
             s.connect((clean_url, 443))
 
-        return CheckResult(
+        return Check(
             found=True,
             status_code=200,
             message="Has valid ssl certificate",

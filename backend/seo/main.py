@@ -21,9 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-logger = logging.getLogger("uvicorn.error")
-logger.setLevel(logging.DEBUG)
-
 
 class Website(BaseModel):
     url: str
