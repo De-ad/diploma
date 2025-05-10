@@ -68,13 +68,13 @@ export const PerformanceBlock = ({ performance }: Props) => {
 
     switch (param.key) {
       case "domSize":
-        result = performance.dataMetrics.domSize < 1500; // Example threshold
+        result = performance.dataMetrics.domSize < 1500;
         break;
 
       case "htmlSize":
         const htmlSizeKB =
           performance.dataMetrics.htmlCompression?.uncompressedSizeKb || 0;
-        result = htmlSizeKB < 100; // Example threshold in KB
+        result = htmlSizeKB < 100;
         break;
 
       case "htmlCompression":
@@ -140,7 +140,11 @@ export const PerformanceBlock = ({ performance }: Props) => {
 
             return (
               <div key={index}>
-                <h2>{strategyName}</h2>
+                <h2>
+                  {strategyName === "mobile" || strategyName === "desktop"
+                    ? strategyName
+                    : ""}
+                </h2>
                 {showCircle && (
                   <Circle progress={metrics.performanceScore} colored={true} />
                 )}

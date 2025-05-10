@@ -119,7 +119,6 @@ export const Design = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Загруженные изображения</h2>
       <div className={styles.imageGrid}>
         {websiteImages?.map((img, idx) => (
           <div key={idx} className={styles.imageCard}>
