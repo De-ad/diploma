@@ -119,12 +119,50 @@ export interface PageReport {
   issues: PageIssues;
 }
 
+export interface SslCertificate {
+  subject: string;
+  issuer: string;
+  notValidBefore: string;
+  notValidAfter: string;
+  signatureAlgorithm: string;
+  version: string;
+}
+
+interface SslChecks {
+  notUsedBeforeActivationDate: boolean;
+  notExpired: boolean;
+  hostnameMatches: boolean;
+  trustedByMajorBrowsers: boolean;
+  usesSecureHash: boolean;
+}
+
+interface SslCertificatesAndChecks {
+  serverCertificate: SslCertificate;
+  intermediateCertificates: SslCertificate[];
+  rootCertificate: SslCertificate;
+  checks: SslChecks;
+}
+export interface Security {
+  sslCertificates: SslCertificatesAndChecks;
+  spfRecord: CheckResult;
+  allUnsafeLinks: string[];
+  http2Support: boolean;
+}
+
+export interface Score {
+  seo: number;
+  performance: number;
+  security: number;
+}
+
 export interface Analysis {
   seo: SeoResult;
   keywordsDistribution: { [key: string]: any } | ErrorResult;
   wordcloud: WordCloudResult | ErrorResult;
   performance: Performance | ErrorResult;
   pageReport: PageReport[];
+  security: Security;
+  score: Score;
 }
 
 export interface KeywordsDistribution {
@@ -132,4 +170,20 @@ export interface KeywordsDistribution {
   description: any;
   headings: any;
   total: any;
+}
+
+export interface DesignAnalysis {
+  message: {
+    criteria: {
+      attribute: string;
+      grade: string;
+      output: string;
+    }[];
+    finalGrade: string;
+  };
+}
+
+export interface ImageData {
+  dataURL: string;
+  fileName: string;
 }

@@ -4,6 +4,7 @@ import { PerformanceBlock } from "../Performance/PerformanceBlock";
 import { Design } from "../Design/Design";
 import { Analysis } from "../../../constants/types";
 import styles from "./styles.module.css";
+import { SecurityAndServer } from "../SecurityAndServer/SecurityAndServer";
 
 type Props = {
   auditResult: Analysis;
@@ -27,6 +28,8 @@ export const Tabs = ({ auditResult }: Props) => {
         return <PerformanceBlock performance={auditResult.performance} />;
       case "design":
         return <Design />;
+      case "security":
+        return <SecurityAndServer security={auditResult.security} />;
       default:
         return <Base seo={auditResult.seo} wordcloud={auditResult.wordcloud} />;
     }
@@ -46,10 +49,10 @@ export const Tabs = ({ auditResult }: Props) => {
         Производительность
       </button>
       <button
-        onClick={() => setCurrentTab("base")}
-        className={`${styles.tab} ${currentTab === "base" ? styles.activeTab : ""}`}
+        onClick={() => setCurrentTab("security")}
+        className={`${styles.tab} ${currentTab === "security" ? styles.activeTab : ""}`}
       >
-        Безопасность
+        Безопасность и сервер
       </button>
       <button
         onClick={() => setCurrentTab("design")}

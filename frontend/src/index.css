@@ -11,7 +11,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  --main-color-lightest: #ae91ff;
   --main-color-light: #9e7ff4;
   --main-color: #8c61ff;
   --main-text: #17191d;

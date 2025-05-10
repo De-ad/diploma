@@ -1,5 +1,6 @@
-export const convertImageToBase64 = (file: File) => {
-  let reader = new FileReader();
-  reader.readAsDataURL(file);
-  console.log(reader.result);
+export const serializeImages = (images: any[]) => {
+  return images.map((img) => ({
+    dataURL: img.dataURL,
+    fileName: img.file?.name || "",
+  }));
 };
