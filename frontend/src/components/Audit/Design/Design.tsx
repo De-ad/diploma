@@ -9,7 +9,6 @@ export interface ImageData {
 }
 
 export const Design = () => {
-  const [websiteImages, setWebsiteImages] = useState<ImageData[] | null>(null);
   const [llmAnalyzeResult, setLlmAnalyzeResult] =
     useState<DesignAnalysis | null>(null);
   const [vlmAnalyzeResult, setVlmAnalyzeResult] =
@@ -27,11 +26,6 @@ export const Design = () => {
     if (stored) {
       const data = JSON.parse(stored);
       setLlmAnalyzeResult(data);
-    }
-    stored = sessionStorage.getItem("websiteImages");
-    if (stored) {
-      const data = JSON.parse(stored);
-      setWebsiteImages(data);
     }
   }, []);
 
@@ -119,15 +113,6 @@ export const Design = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.imageGrid}>
-        {websiteImages?.map((img, idx) => (
-          <div key={idx} className={styles.imageCard}>
-            <img src={img.dataURL} alt={`uploaded-${idx}`} />
-            <p>{img.fileName}</p>
-          </div>
-        ))}
-      </div>
-
       {vlmAnalyzeResult && (
         <>
           <h2>VLM анализ</h2>

@@ -89,7 +89,10 @@ export const Base = ({
       {SEO_PARAMS.map((param) => (
         <Card key={param.key} {...getCardProps(param)} />
       ))}
-      <Preview searchPreview={seo.searchPreview} />
+      <Preview
+        searchPreview={seo.searchPreview}
+        fileExtension={seo.seoFiles.favicon.fileExtension}
+      />
       <Cloud words={wordcloud.data} />
       <Table keywordsDistribution={keywordsDistribution} />
     </div>

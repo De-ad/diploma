@@ -3,9 +3,10 @@ import { SearchPreview } from "../../../../constants/types";
 
 type Props = {
   searchPreview: SearchPreview;
+  fileExtension: String | null;
 };
 
-export const Preview = ({ searchPreview }: Props) => {
+export const Preview = ({ searchPreview, fileExtension }: Props) => {
   return (
     <div className={styles.previewBlock}>
       <h2>Поисковая выдача</h2>
@@ -16,7 +17,7 @@ export const Preview = ({ searchPreview }: Props) => {
               {searchPreview.hasFavicon ? (
                 <img
                   className={styles.image}
-                  src={`${searchPreview.url}/favicon.png`}
+                  src={`${searchPreview.url}/favicon.${fileExtension}`}
                   alt="website favicon"
                 />
               ) : (

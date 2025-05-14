@@ -29,10 +29,6 @@ export const Home = () => {
       sessionStorage.setItem("auditResult", JSON.stringify(result));
       sessionStorage.setItem("vlmAnalyzeResult", JSON.stringify(vlmResult));
       sessionStorage.setItem("llmAnalyzeResult", JSON.stringify(llmResult));
-      sessionStorage.setItem(
-        "websiteImages",
-        JSON.stringify(serializeImages(websiteImages)),
-      );
       setLoading(false);
       navigate(`/audit/${name}`);
     } else {
