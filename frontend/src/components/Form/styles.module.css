@@ -1,0 +1,162 @@
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.subheading {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+.label {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.uploadArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.button,
+.removeAll,
+.submit {
+  padding: 10px 16px;
+  background-color: var(--main-color-light);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover,
+.removeAll:hover,
+.submit:hover {
+  background-color: var(--main-color-lightest);
+}
+
+.imagePreviewGrid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.imageCard {
+  position: relative;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.imageCard img {
+  width: 100px;
+  height: auto;
+  border-radius: 6px;
+}
+
+.imageActions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+  text-align: center;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.uploadLabel {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: var(--main-color-light);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.uploadLabel:hover {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: var(--main-color-lightest);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.imageCard span {
+  word-break: break-all;
+  font-size: 14px;
+}
+
+.fileUpload button {
+  padding: 0.2rem 0.3rem;
+}
+.fileRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.fileContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.submit {
+  background: linear-gradient(120deg, #8c61ff, #8964f0, #8c61ff);
+  background-size: 200% auto;
+  color: white;
+  animation: shine 3s linear infinite;
+  box-shadow: 0 4px 12px rgba(140, 97, 255, 0.4);
+}

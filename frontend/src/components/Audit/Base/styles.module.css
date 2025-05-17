@@ -1,0 +1,147 @@
+.block {
+  width: 50vw;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 auto;
+  .previewBlock {
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+
+    .faviconAndTitle {
+      display: flex;
+      padding: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      align-items: center;
+
+      .googleTitle {
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        color: var(--google-title);
+        text-align: start;
+      }
+      .googleUrl {
+        font-size: 12px;
+        line-height: 18px;
+        max-width: max-content;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        color: var(--google-url);
+      }
+      .favicon {
+        margin-right: 12px;
+        max-width: 100%;
+        height: auto;
+
+        .image {
+          height: 26px;
+          width: 26px;
+          display: block;
+          border: 1px solid var(--google-border);
+          background-color: var(--google-background);
+          border-radius: 50%;
+        }
+        .svgNoFavicon {
+          height: 18px;
+          line-height: 18px;
+          width: 18px;
+          color: #0b57d0;
+          svg {
+            display: block;
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .googleDescription {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      color: var(--google-description);
+      display: flex;
+    }
+  }
+}
+
+.card {
+  /* border: 1px solid #ddd; */
+  padding: 16px;
+  /* border-radius: 12px; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  max-width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconSuccess {
+  color: green;
+  font-size: 1.5rem;
+}
+
+.iconError {
+  color: red;
+  font-size: 1.5rem;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.message {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.description {
+  margin-top: 10px;
+  font-size: 0.875rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.location {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  p {
+    margin: 0;
+    text-align: start;
+  }
+}

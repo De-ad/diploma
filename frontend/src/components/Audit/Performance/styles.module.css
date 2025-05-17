@@ -1,0 +1,125 @@
+.card {
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.fullName {
+  color: #6b7280;
+  font-size: 0.875rem;
+  padding: 0;
+}
+
+.tooltipWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+  z-index: 10;
+  background: white;
+  color: black;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 16rem;
+}
+
+.tooltipWrapper:hover .tooltip {
+  display: block;
+}
+
+.barContainer {
+  position: relative;
+  height: 0.75rem;
+  margin-top: 0.5rem;
+  width: 50vw;
+  background-color: #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.labelLeft,
+.labelRight {
+  position: absolute;
+  top: -1rem;
+  font-size: 0.75rem;
+}
+
+.labelLeft {
+  left: 0;
+}
+
+.labelRight {
+  right: 0;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  height: 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: black;
+  border-radius: 9999px;
+}
+
+.green {
+  background-color: var(--green);
+}
+
+.yellow {
+  background-color: var(--yellow);
+}
+
+.red {
+  background-color: var(--red);
+}
+.valueLabel {
+  position: absolute;
+  bottom: 100%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+}
+
+.rangeLabel {
+  position: absolute;
+  top: 1rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  height: 0.75rem;
+  border-radius: 0.375rem;
+}
+
+h2 {
+  padding: 1rem;
+}

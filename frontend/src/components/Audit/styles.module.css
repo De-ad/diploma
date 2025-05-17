@@ -1,0 +1,21 @@
+.grade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.separateParams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  max-width: 800px;
+  margin: 2rem;
+}
+
+.param {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}

@@ -1,0 +1,18 @@
+.tab {
+  background-color: white;
+  border-width: 1px 1px 1px 1px;
+  border-radius: 0;
+  color: var(--main-text);
+}
+
+.tab:hover {
+  transition: all 0.25s;
+  color: white;
+}
+.tab:focus {
+  outline: none;
+}
+
+.activeTab {
+  border-bottom: 2px solid var(--main-color);
+}
