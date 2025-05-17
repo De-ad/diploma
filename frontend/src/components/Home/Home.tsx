@@ -7,7 +7,6 @@ import { Form } from "../Form/Form";
 import { Loader } from "../Loader/Loader";
 import { sendData, sendFiles, sendURL } from "../../api/auditApi";
 import { useNavigate } from "react-router";
-import { serializeImages } from "../../utils/convertToBase64";
 
 export const Home = () => {
   let navigate = useNavigate();

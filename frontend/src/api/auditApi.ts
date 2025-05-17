@@ -47,8 +47,6 @@ export const sendData = async (
     .catch(function (error) {
       console.log(error);
     });
-
-  console.log(response.data);
   return response.data;
 };
 
@@ -84,6 +82,5 @@ export const sendURL = async (websiteURL: string) => {
   const response = await axiosSEO.post("/seo/analyze", {
     url: websiteURL,
   });
-  console.log(response.data);
   return response.data;
 };
