@@ -1,0 +1,91 @@
+.block {
+  width: 50vw;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 auto;
+}
+
+p {
+  display: flex;
+  gap: 1rem;
+}
+h2 {
+  margin-bottom: 0;
+}
+.sslBlock {
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  border: 1px solid #f9fafb;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table thead {
+  background-color: var(--main-color-light);
+  color: white;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  width: 50%;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.chartWrapper {
+  margin-top: 2rem;
+  width: 100%;
+  height: 300px;
+}
+
+.chartTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.iconSuccess {
+  color: green;
+  font-size: 1.5rem;
+}
+
+.iconError {
+  color: red;
+  font-size: 1.5rem;
+}
