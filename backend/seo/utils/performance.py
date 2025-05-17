@@ -1,16 +1,20 @@
 import os
 from typing import List, Union
 from urllib.parse import urljoin
-from fastapi import logger
 import httpx
-from models.analysis import AssetIssues, DataMetrics, ErrorResult, HtmlCompression, ImageInfo, Performance, PerformanceMetrics
+from models.analysis import (
+    AssetIssues,
+    DataMetrics,
+    ErrorResult,
+    HtmlCompression,
+    ImageInfo,
+    Performance,
+    PerformanceMetrics,
+)
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
 from PIL import Image
 from io import BytesIO
-import re
-import logging
-logger = logging.getLogger(__name__)
+
 
 async def fetch_performance_data(
     url: str, client: httpx.AsyncClient, strategy: str
@@ -20,7 +24,6 @@ async def fetch_performance_data(
         f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
         f"?url={url}&key={api_key}&strategy={strategy}&category=performance"
     )
-
     try:
         response = await client.get(api_url)
         data = response.json()
@@ -49,23 +52,14 @@ async def fetch_performance_data(
                     ],
                 )
             except (KeyError, TypeError) as parse_error:
-                logger.error(
-                    f"Failed to parse {strategy} performance data: {parse_error}"
-                )
                 return ErrorResult(
                     error=f"Failed to parse {strategy} performance data: {parse_error}"
                 )
         else:
-            logger.error(
-                f"{strategy.capitalize()} - Non-200 status: {response.status_code}"
-            )
             return ErrorResult(
                 error=f"{strategy.capitalize()} status code is not 200: {response.status_code}"
             )
     except httpx.RequestError as e:
-        logger.error(
-            f"{strategy.capitalize()} request failed: {type(e).__name__} - {e}"
-        )
         return ErrorResult(
             error=f"{strategy.capitalize()} request error: {type(e).__name__}: {e}"
         )
@@ -82,8 +76,9 @@ async def check_performance_metrics(
     if isinstance(desktop_result, ErrorResult):
         return desktop_result
     data_metrics = await get_data_metrics(url, client)
-    return Performance(mobile=mobile_result, desktop=desktop_result, data_metrics=data_metrics)
-
+    return Performance(
+        mobile=mobile_result, desktop=desktop_result, data_metrics=data_metrics
+    )
 
 
 async def check_image_metadata_and_caching(soup, base_url, client):
@@ -104,12 +99,15 @@ async def check_image_metadata_and_caching(soup, base_url, client):
 
             headers = response.headers
             cache_control = headers.get("Cache-Control", "")
-            if not any(token in cache_control.lower() for token in ["max-age", "public", "immutable"]):
+            if not any(
+                token in cache_control.lower()
+                for token in ["max-age", "public", "immutable"]
+            ):
                 uncached_images.append(src)
 
             try:
                 with Image.open(BytesIO(img_data)) as im:
-                    _ = im.size  # Just to validate it's a real image
+                    _ = im.size  
             except Exception:
                 continue
 
@@ -126,7 +124,10 @@ async def analyze_assets(urls: List[str], client: httpx.AsyncClient):
             response = await client.get(url, timeout=10)
             headers = response.headers
             cache_control = headers.get("Cache-Control", "")
-            if not any(token in cache_control.lower() for token in ["max-age", "public", "immutable"]):
+            if not any(
+                token in cache_control.lower()
+                for token in ["max-age", "public", "immutable"]
+            ):
                 uncached.append(url)
 
             content = response.text
@@ -140,8 +141,13 @@ async def analyze_assets(urls: List[str], client: httpx.AsyncClient):
 
 
 async def check_static_asset_caching_and_minification(soup, base_url, client):
-    js_files = [urljoin(base_url, tag["src"]) for tag in soup.find_all("script", src=True)]
-    css_files = [urljoin(base_url, tag["href"]) for tag in soup.find_all("link", rel="stylesheet", href=True)]
+    js_files = [
+        urljoin(base_url, tag["src"]) for tag in soup.find_all("script", src=True)
+    ]
+    css_files = [
+        urljoin(base_url, tag["href"])
+        for tag in soup.find_all("link", rel="stylesheet", href=True)
+    ]
 
     uncached_js, unmin_js = await analyze_assets(js_files, client)
     uncached_css, unmin_css = await analyze_assets(css_files, client)
@@ -172,12 +178,24 @@ def get_dom_size(soup: BeautifulSoup) -> int:
 
 
 async def get_data_metrics(url: str, client: httpx.AsyncClient) -> DataMetrics:
-    html, uncompressed_size, compressed_size, compression_type, compression_rate = await check_html_compression_and_size(url, client)
+    (
+        html,
+        uncompressed_size,
+        compressed_size,
+        compression_type,
+        compression_rate,
+    ) = await check_html_compression_and_size(url, client)
     soup = BeautifulSoup(html, "html.parser")
 
     dom_elements = get_dom_size(soup)
-    total_images, oversized_images_raw, uncached_images = await check_image_metadata_and_caching(soup, url, client)
-    oversized_images = [ImageInfo(src=src, size_kb=kb) for src, kb in oversized_images_raw]
+    (
+        total_images,
+        oversized_images_raw,
+        uncached_images,
+    ) = await check_image_metadata_and_caching(soup, url, client)
+    oversized_images = [
+        ImageInfo(src=src, size_kb=kb) for src, kb in oversized_images_raw
+    ]
 
     asset_data = await check_static_asset_caching_and_minification(soup, url, client)
     asset_issues = AssetIssues(**asset_data)

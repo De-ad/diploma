@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
-import logging
 from utils import operations
 
 app = FastAPI()

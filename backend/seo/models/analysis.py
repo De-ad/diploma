@@ -45,11 +45,9 @@ class SeoFiles(BaseModel):
 
 class SeoResult(BaseModel):
     seo_files: SeoFiles
-    ssl_certificate: Check
     metadata: Union[Metadata, ErrorResult]
     socials: Union[Socials, ErrorResult]
     search_preview: Union[SearchPreview, ErrorResult]
-    spf_record: Check
     canonical_url: str | None = None
     structured_data: List[dict] = []
     charset: str | None = None
@@ -73,17 +71,20 @@ class ImageInfo(BaseModel):
     src: str
     size_kb: float
 
+
 class AssetIssues(BaseModel):
     uncached_js: List[str]
     unminified_js: List[str]
     uncached_css: List[str]
     unminified_css: List[str]
 
+
 class HtmlCompression(BaseModel):
     uncompressed_size_kb: float
     compressed_size_kb: float
     compression_type: str
     compression_rate_percent: float
+
 
 class DataMetrics(BaseModel):
     dom_size: int
@@ -93,10 +94,12 @@ class DataMetrics(BaseModel):
     uncached_images: List[str]
     asset_issues: AssetIssues
 
+
 class Performance(BaseModel):
     mobile: PerformanceMetrics
     desktop: PerformanceMetrics
     data_metrics: DataMetrics
+
 
 class BrokenLink(BaseModel):
     link: str
@@ -119,9 +122,48 @@ class PageReport(BaseModel):
     issues: PageIssues
 
 
+class SslCertificate(BaseModel):
+    subject: str
+    issuer: str
+    not_valid_before: str
+    not_valid_after: str
+    signature_algorithm: str
+    version: str
+
+
+class SslChecks(BaseModel):
+    not_used_before_activation_date: bool
+    not_expired: bool
+    hostname_matches: bool
+    trusted_by_major_browsers: bool
+    uses_secure_hash: bool
+
+
+class SslCertificatesAndChecks(BaseModel):
+    server_certificate: SslCertificate
+    intermediate_certificates: List[SslCertificate]
+    root_certificate: SslCertificate
+    checks: SslChecks
+
+
+class SecurityAndServer(BaseModel):
+    ssl_certificates: SslCertificatesAndChecks
+    spf_record: Check
+    all_unsafe_links: List[str]
+    http2_support: bool
+
+
+class Score(BaseModel):
+    seo: int
+    performance: int
+    security: int
+
+
 class Analysis(BaseModel):
     seo: SeoResult
     keywords_distribution: Union[dict, ErrorResult]
     wordcloud: Union[WordCloudResult, ErrorResult]
     performance: Union[Performance, ErrorResult]
     page_report: List[PageReport]
+    security: SecurityAndServer
+    score: Score

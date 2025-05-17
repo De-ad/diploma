@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+httpx
+beautifulsoup4
+python-dotenv
+wordcloud
+aiofiles
+certifi
+cryptography
+pyOpenSSL
+OpenSSL
+httpx[http2]
+python-multipart
+openai
+ruff
+ssl
+dnspython

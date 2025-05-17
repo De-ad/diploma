@@ -49,7 +49,8 @@ async def check_link_status(client, url):
     except Exception as e:
         return str(e)
 
-async def crawl(url, domain, client, results, visited):
+
+async def crawl(url, domain, client, results, visited, all_unsafe_links):
     if url in visited:
         return
     visited.add(url)
@@ -83,7 +84,9 @@ async def crawl(url, domain, client, results, visited):
     for link in soup.find_all("a", href=True):
         next_url = urljoin(url, link["href"])
         if urlparse(next_url).netloc == domain and next_url not in visited:
-            tasks.append(crawl(next_url, domain, client, results, visited))
+            tasks.append(
+                crawl(next_url, domain, client, results, visited, all_unsafe_links)
+            )
 
         status = await check_link_status(client, next_url)
         if status:
@@ -107,15 +110,20 @@ async def crawl(url, domain, client, results, visited):
     unsafe_links = check_unsafe_cross_origin_links(soup, url)
     if unsafe_links:
         issues.unsafe_links = unsafe_links
+        all_unsafe_links.update(unsafe_links)
 
     # Create the dictionary dynamically to only include non-empty fields
-    issues_dict = {key: value for key, value in issues.dict().items() if value not in [False, [], None]}
+    issues_dict = {
+        key: value
+        for key, value in issues.dict().items()
+        if value not in [False, [], None]
+    }
 
-    # Only append results if there are any issues
     if issues_dict:
         results.append(PageReport(url=url, issues=issues_dict))
 
     await asyncio.gather(*tasks)
+
 
 async def check_metadata(soup) -> Union[Metadata, ErrorResult]:
     description_tag = soup.find("meta", attrs={"name": "description"})
@@ -216,7 +224,7 @@ async def get_serch_preview(
 
 async def check_http2_support(url: str, client: httpx.AsyncClient):
     try:
-        response = client.get(url)
+        response = await client.get(url)
         return response.http_version == "HTTP/2"
     except Exception as e:
         print("HTTP/2 check failed:", e)
@@ -269,9 +277,10 @@ def check_noindex_tag(soup):
 async def check_spf_record(domain: str) -> bool:
     return await asyncio.to_thread(_check_spf_record_sync, domain)
 
+
 def _check_spf_record_sync(domain) -> Check:
     try:
-        answers = dns.resolver.resolve(domain, 'TXT')
+        answers = dns.resolver.resolve(domain, "TXT")
         for rdata in answers:
             for txt_string in rdata.strings:
                 if isinstance(txt_string, bytes):
@@ -281,7 +290,7 @@ def _check_spf_record_sync(domain) -> Check:
     except Exception as e:
         print("SPF check error:", e)
         return Check(found=False, error=str(e))
-    
+
     return Check(found=False, message="No SPF record found")
 
 
